@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
+//
 exports.createDefaultUser = async () => {
   try {
     const email = process.env.DEFAULT_USER_EMAIL || 'admin@safi.ma';
