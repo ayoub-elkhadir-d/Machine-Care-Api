@@ -58,3 +58,32 @@ exports.getMachineById = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+
+exports.updateMachine = async (req, res) => {
+  try {
+    const machine = await Machine.findById(req.params.id);
+
+    if (!machine) {
+      return res.status(404).json({ message: 'Machine introuvable' });
+    }
+
+    const allowedFields = ['name', 'code', 'type', 'location', 'status'];
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        if (field === 'status' && !validStatuses.includes(req.body[field])) {
+          return res.status(400).json({ message: 'Statut invalide' });
+        }
+        machine[field] = req.body[field];
+      }
+    }
+
+    await machine.save();
+    res.json(machine);
+  } catch (error) {
+    if (error?.code === 11000) {
+      return res.status(400).json({ message: 'Ce code machine existe déjà' });
+    }
+
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
