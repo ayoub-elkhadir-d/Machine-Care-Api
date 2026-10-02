@@ -82,3 +82,11 @@ exports.updateProfile = async (req, res) => {
 		res.status(500).json({ message: 'Erreur serveur' });
 	}
 };
+exports.getallusers = async (req,res)=> {
+	try {
+		const users = await User.find({});
+		res.status(201).json(users)
+	}catch(err){
+res.status(500).json({"err":"cant get the machins"})
+	}
+}
