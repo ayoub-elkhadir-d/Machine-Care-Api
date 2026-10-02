@@ -1,12 +1,25 @@
 require('dotenv').config();
 const app = require('./app');
-const connectDB = require('./config/db');
+const mongoose = require('mongoose');
+const { createDefaultUser } = require('./controllers/authController');
 
 const PORT = process.env.PORT || 5000;
 
-// Connexion à la base de données puis démarrage du serveur
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET must be configured');
+  process.exit(1);
+}
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(async () => {
+    console.log('MongoDB connecté !');
+    
+    await createDefaultUser();
+
+    app.listen(PORT, () => {
+      console.log(`Serveur démarré sur le port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Erreur de connexion MongoDB :', err);
   });
-});
