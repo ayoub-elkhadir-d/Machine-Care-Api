@@ -29,3 +29,32 @@ exports.createMachine = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+
+exports.getMachines = async (req, res) => {
+  try {
+    const { status, location } = req.query;
+    const filter = {};
+
+    if (status) filter.status = status;
+    if (location) filter.location = new RegExp(location, 'i');
+
+    const machines = await Machine.find(filter).sort({ createdAt: -1 });
+    res.json(machines);
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
+
+exports.getMachineById = async (req, res) => {
+  try {
+    const machine = await Machine.findById(req.params.id);
+
+    if (!machine) {
+      return res.status(404).json({ message: 'Machine introuvable' });
+    }
+
+    res.json(machine);
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};
