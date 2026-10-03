@@ -46,11 +46,15 @@ exports.getPannes = async (req, res) => {
    try {
   const { status, machine } = req.query;
      const filter = {}
-     if(status) filter.status = status
+     const allowedStatus = ['open', 'in_progress', 'resolved']
+     if (status) {
+       if(!allowedStatus.includes(status.toLowerCase())) return res.status(404).json({message:"the status invalide!!!"})
+        filter.status = status.toLowerCase()
+     }
      if (machine) filter.machine = machine
-
+        
      const pannes = await Incident.find(filter).populate('machine', 'name location status ').populate('declaredBy', 'email');
-    res.status(200).json(pannes)
+     res.status(200).json(pannes)
  // return res.status(401).json({message:"cannot get the pannes !!!"})
 
 
