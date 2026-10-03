@@ -1,18 +1,8 @@
-﻿const express = require('express');
+﻿const express = require("express");
 const router = express.Router();
-const { protect } = require('../middlewares/authMiddleware');
-const {
-  createIncident,
-  getIncidents,
-  getIncidentById,
-  updateIncident,
-} = require('../controllers/incidentController');
 
+const {protect} =require("../middlewares/authMiddleware");
+const {cretepanne} = require("../controllers/incidentController");
 router.use(protect);
-router.get('/', getIncidents);
-router.get('/:id', getIncidentById);
-router.post('/', createIncident);
-router.patch('/:id', updateIncident);
-router.patch('/:id/status', updateIncident);
-
+router.post('/',cretepanne);
 module.exports = router;

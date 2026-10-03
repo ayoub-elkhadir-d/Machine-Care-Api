@@ -10,7 +10,7 @@ exports.createMachine = async (req, res) => {
       return res.status(400).json({ message: 'Le nom et le code de la machine sont obligatoires' });
     }
 
-    const normalizedStatus = validStatuses.includes(status) ? status : 'operational';
+     const normalizedStatus = validStatuses.includes(status) ? status : 'operational';
 
     const machine = await Machine.create({
       name,
