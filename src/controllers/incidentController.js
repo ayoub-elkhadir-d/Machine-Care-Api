@@ -62,3 +62,21 @@ exports.getPannes = async (req, res) => {
     res.status(500).json({message:"cannot get the pannes !!!"})
   }
 }
+
+
+exports.getPanneById = async (req, res) => {
+  try {
+    
+    const panne = await Incident.findById(req.params.id).populate('machine', 'name location status ').populate('declaredBy', 'email');
+    if(!panne) return res.status(404).json({message:"cannot find the Panne !!!"})
+    res.status(200).json(panne)
+    
+  } catch (e) {
+    
+    res.status(500).json({ 
+          message: "Erreur serveur lors de la récupération de l'incident", 
+          error: e.message 
+        });
+
+}
+}

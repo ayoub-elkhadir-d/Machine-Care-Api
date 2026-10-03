@@ -7,7 +7,7 @@ router.use(protect);
 
 router.post('/', incidentController.cretepanne);
  router.get('/', incidentController.getPannes);
-// router.get('/:id', incidentController.getIncidentById);
+router.get('/:id', incidentController.getPanneById);
 router.put('/:id', incidentController.updatePanne);
 
 module.exports = router;
