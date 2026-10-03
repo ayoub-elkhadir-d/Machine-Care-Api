@@ -22,3 +22,22 @@ exports.cretepanne = async (req, res) =>{
         res.status(400).json({err:e})
     }
 }
+exports.updatePanne = async  (req,res)=>{
+    try {
+        const panne = await Incident.findById(req.params.id);
+
+        if(!panne) return res.status(401).json({message:"cannot find this panne !! "});
+
+        panne.status = req.body.status;
+        if(req.body.status === "resolved") {
+            const machine =await Machine.findById(panne.machine);
+            if(!machine) return res.status(401).json({message:"cannot find the machine !!!"})
+            machine.status = "operational"
+            await machine.save()
+      }
+        res.status(201).json({message:"panne updated !!!"})
+
+    }catch (e) {
+        res.status(500).json({message:"err , can't update the machine !!!"})
+    }
+}

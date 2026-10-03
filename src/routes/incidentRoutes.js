@@ -1,8 +1,13 @@
-﻿const express = require("express");
+﻿const express = require('express');
 const router = express.Router();
+const incidentController = require('../controllers/incidentController');
+const { protect } = require('../middlewares/authMiddleware');
 
-const {protect} =require("../middlewares/authMiddleware");
-const {cretepanne} = require("../controllers/incidentController");
 router.use(protect);
-router.post('/',cretepanne);
+
+router.post('/', incidentController.cretepanne);
+// router.get('/', incidentController.getPannes);
+// router.get('/:id', incidentController.getIncidentById);
+router.put('/:id', incidentController.updatePanne);
+
 module.exports = router;
