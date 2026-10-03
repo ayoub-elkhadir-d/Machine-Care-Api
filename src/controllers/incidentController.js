@@ -1,6 +1,6 @@
 const Machine = require('../models/Machine')
 const Incident = require('../models/Incident');
-
+//
 
 exports.cretepanne = async (req, res) =>{
     try {
