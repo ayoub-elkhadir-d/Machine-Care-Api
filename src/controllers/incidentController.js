@@ -1,5 +1,5 @@
 const Machine = require('../models/Machine')
-const Incident = require('../models/Incident')
+const Incident = require('../models/Incident');
 
 
 exports.cretepanne = async (req, res) =>{
@@ -40,4 +40,21 @@ exports.updatePanne = async  (req,res)=>{
     }catch (e) {
         res.status(500).json({message:"err , can't update the machine !!!"})
     }
+}
+
+exports.getPannes = async (req, res) => {
+   try {
+  const { status, machine } = req.query;
+     const filter = {}
+     if(status) filter.status = status
+     if (machine) filter.machine = machine
+
+     const pannes = await Incident.find(filter).populate('machine', 'name location status ').populate('declaredBy', 'email');
+    res.status(200).json(pannes)
+ // return res.status(401).json({message:"cannot get the pannes !!!"})
+
+
+  } catch (e) {
+    res.status(500).json({message:"cannot get the pannes !!!"})
+  }
 }

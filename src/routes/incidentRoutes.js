@@ -6,7 +6,7 @@ const { protect } = require('../middlewares/authMiddleware');
 router.use(protect);
 
 router.post('/', incidentController.cretepanne);
-// router.get('/', incidentController.getPannes);
+ router.get('/', incidentController.getPannes);
 // router.get('/:id', incidentController.getIncidentById);
 router.put('/:id', incidentController.updatePanne);
 
